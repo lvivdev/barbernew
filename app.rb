@@ -25,17 +25,22 @@ get '/' do
 end
 
 get '/visit' do
+	@c = Client.new
 	erb :visit
 end
 
 post '/visit' do
 
-	c = Client.new params[:client]
-	if c.save
+	@c = Client.new params[:client]
+	if @c.save
 		erb 'Вы записались)'
 	else
-		@error = c.errors.full_messages.first
+		@error = @c.errors.full_messages.first
 		erb :visit
 	end
 end
 
+get '/barber/:id' do
+	@barber = Barber.find(params[:id])
+	erb :barber
+end
